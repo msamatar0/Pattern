@@ -23,7 +23,7 @@ int patternSearch(string t, string p){
 	return -1;
 }
 
-
+//Boyer-Moore pattern search
 int boyerMatch(string t, string p){
 	int n = t.length(), m = p.length();
 	int i = m - 1, j = m - 1;;
