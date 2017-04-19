@@ -27,7 +27,7 @@ int main(){
 void searchFunc(function<search(string, string)> func, string text, string pattern){
 	search result = func(text, pattern);
 	cout << text << (result.idx != -1 ? " contains" : " does not contain") << " " << pattern << endl
-		 << result.comparisons << (result.comparisons == 1? " comparison used\n" : " comparisons used\n");
+		<< result.comparisons << (result.comparisons == 1? " comparison used\n" : " comparisons used\n");
 }
 
 //Brute Force Matching algorithm
