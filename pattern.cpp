@@ -1,3 +1,8 @@
+/*
+ * Mohamed Samatar - 101848
+ * Assignment 13 - Pattern Matching
+ * Description - Compares the 3 pattern-matching algorithms
+ */
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,34 +17,40 @@ struct search{
 
 void searchFunc(function<search(string, string)> func, string text, string pattern);
 search bruteForceSearch(string t, string p);
-search boyerMatch(string t, string p);
-search kmp(string t, string p);
+search bmMatch(string t, string p);
+search kmpMatch(string t, string p);
 vector<int> failure(string p);
 
 int main(){
 	system("cls");
+	cout << "/*\n * Mohamed Samatar - 101848\n * Assignment 13 - Pattern Matching\n"
+		<< " * Description - Compares the 3 pattern-matching algorithms\n */\n\n";
 	string text = "aaabcaadaabaaa", pattern = "aabaaa";
+	cout << "P1 - Brute Force:\n";
 	searchFunc(bruteForceSearch, text, pattern);
-	searchFunc(boyerMatch, text, pattern);
-	searchFunc(kmp, text, pattern);
+	cout << "P2 - Boyer-Moore:\n";
+	searchFunc(bmMatch, text, pattern);
+	cout << "P3 - KMP:\n";
+	searchFunc(kmpMatch, text, pattern);
 }
 
 void searchFunc(function<search(string, string)> func, string text, string pattern){
 	search result = func(text, pattern);
-	cout << text << (result.idx != -1 ? " contains" : " does not contain") << " " << pattern << endl
-		<< result.comparisons << (result.comparisons == 1? " comparison used\n" : " comparisons used\n");
+	cout << text << (result.idx != -1 ? " contains" : " does not contain") << " " << pattern << " starting at index #" << result.idx << ": "
+		<< result.comparisons << " comparisons used\n\n";
 }
 
 //Brute Force Matching algorithm
 search bruteForceSearch(string t, string p){
 	int comps = 0;
 	int n = t.length(), m = p.length();
-	for(int i = 0; i < n - m; ++i){
+	for(int i = 0; i < n; ++i){
 		int j = 0;
-		while(j < m && t[i + j] == p[j]){
-			j++;
+		while(t[i + j] == p[j]){
 			if(j == m)
-				return{ i, ++comps };
+				return{ i, comps };
+			j++;
+			comps++;
 		}
 		comps++;
 	}
@@ -47,7 +58,7 @@ search bruteForceSearch(string t, string p){
 }
 
 //Boyer-Moore Matching Algorithm
-search boyerMatch(string t, string p){
+search bmMatch(string t, string p){
 	int comps = 0;
 	int n = t.length(), m = p.length();
 	int i = m - 1, j = m - 1;;
@@ -71,7 +82,7 @@ search boyerMatch(string t, string p){
 }
 
 //Boyer-Moore Matching Algorithm
-search kmp(string t, string p){
+search kmpMatch(string t, string p){
 	int comps = 0;
 	int n = t.size(), m = p.size();
 	vector<int> fail = failure(p);
