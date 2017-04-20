@@ -22,7 +22,6 @@ search kmpMatch(string t, string p);
 vector<int> failure(string p);
 
 int main(){
-	system("cls");
 	cout << "/*\n * Mohamed Samatar - 101848\n * Assignment 13 - Pattern Matching\n"
 		<< " * Description - Compares the 3 pattern-matching algorithms\n */\n\n";
 	string text = "aaabcaadaabaaa", pattern = "aabaaa";
@@ -34,6 +33,7 @@ int main(){
 	searchFunc(kmpMatch, text, pattern);
 }
 
+//Calls search function and outputs results
 void searchFunc(function<search(string, string)> func, string text, string pattern){
 	search result = func(text, pattern);
 	cout << text << (result.idx != -1 ? " contains" : " does not contain") << " " << pattern << " starting at index #" << result.idx << ": "
