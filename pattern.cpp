@@ -5,11 +5,10 @@
  */
 #include <iostream>
 #include <string>
-#include <vector>
 #include <functional>
 using namespace std;
 
-//Returned by search -type functions
+//Returned by search-type functions
 //indicates found index and # of comparisons used
 struct search{
 	int idx, comparisons;
@@ -19,7 +18,6 @@ void searchFunc(function<search(string, string)> func, string text, string patte
 search bruteForceSearch(string t, string p);
 search bmMatch(string t, string p);
 search kmpMatch(string t, string p);
-vector<int> failure(string p);
 
 int main(){
 	cout << "/*\n * Mohamed Samatar - 101848\n * Assignment 13 - Pattern Matching\n"
@@ -36,7 +34,8 @@ int main(){
 //Calls search function and outputs results
 void searchFunc(function<search(string, string)> func, string text, string pattern){
 	search result = func(text, pattern);
-	cout << text << (result.idx != -1 ? " contains" : " does not contain") << " " << pattern << " starting at index #" << result.idx << ": "
+	cout << text << (result.idx != -1 ? " contains" : " does not contain")
+		<< " " << pattern<< " starting at index #" << result.idx << ": "
 		<< result.comparisons << " comparisons used\n\n";
 }
 
@@ -85,12 +84,23 @@ search bmMatch(string t, string p){
 search kmpMatch(string t, string p){
 	int comps = 0;
 	int n = t.size(), m = p.size();
-	vector<int> fail = failure(p);
-	int i = 0, j = 0;
+	int *fail = new int[m];
+	fail[0] = 0;
+	int i = 1, j = 0;
+	while(i < m){
+		if(p[i] == p[j])
+			fail[i++] = ++j;
+		else if(j > 0)
+			j = fail[j - 1];
+		else
+			fail[i++] = 0;
+	}
 	while(i < n){
 		if(t[i] == p[j]){
-			if(j == m - 1)
-				return{ i - m + 1, ++comps };
+			if(j == m - 1){
+				delete[] fail;
+				return{i - m + 1, ++comps};
+			}
 			i++;
 			j++;
 		}
@@ -100,22 +110,6 @@ search kmpMatch(string t, string p){
 			i++;
 		comps++;
 	}
+	delete[] fail;
 	return{ -1, comps };
-}
-
-//Knuth-Morris-Pratt Matching Algotirhm
-vector<int> failure(string p){
-	int m = p.length();
-	vector<int> f(m);
-	f[0] = 0;
-	int i = 1, j = 0;
-	while(i < m){
-		if(p[i] == p[j])
-			f[i++] = ++j;
-		else if(j > 0)
-			j = f[j - 1];
-		else
-			f[i++] = 0;
-	}
-	return f;
 }
