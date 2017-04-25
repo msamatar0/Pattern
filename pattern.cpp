@@ -5,8 +5,6 @@
  */
 #include <iostream>
 #include <string>
-#include <vector>
-#include <functional>
 using namespace std;
 
 //Returned by search -type functions
@@ -15,7 +13,7 @@ struct search{
 	int idx, comparisons;
 };
 
-string searchFunc(function<search(string, string)> func, string text, string pattern);
+string searchFunc(search (*func)(string, string), string text, string pattern);
 search bruteForceSearch(string t, string p);
 search bmMatch(string t, string p);
 search kmpMatch(string t, string p);
@@ -30,8 +28,8 @@ int main(){
 	cout << "P3 - KMP:\n" << searchFunc(kmpMatch, text, pattern);
 }
 
-//Takes search function and returns string based on results
-string searchFunc(function<search(string, string)> func, string text, string pattern){
+//Takes search function and returns string based on results of executing search function
+string searchFunc(search (*func)(string, string), string text, string pattern){
 	search result = func(text, pattern);
 	bool found = result.idx != -1;
 	return text + (found? " contains" : " does not contain") + " "
