@@ -1,0 +1,18 @@
+/*
+ * Mohamed Samatar - 101848
+ * Assignment 13 - Pattern Matching
+ * Description - Compares the 3 pattern-matching algorithms
+ */
+
+P1 - Brute Force:
+aaabcaadaabaaa contains aabaaa starting at index #8: 23 comparisons used
+
+P2 - Boyer-Moore:
+aaabcaadaabaaa contains aabaaa starting at index #8: 9 comparisons used
+
+P3 - KMP:
+aaabcaadaabaaa contains aabaaa starting at index #8: 17 comparisons used
+
+
+aaabcaadaabaaa does not contain 777777: 14 comparisons used
+
