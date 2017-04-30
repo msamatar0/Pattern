@@ -5,15 +5,16 @@
  */
 #include <iostream>
 #include <string>
+#include <functional>
 using namespace std;
 
-//Returned by search -type functions
+//Returned by search-type functions
 //indicates found index and # of comparisons used
 struct search{
-	int idx, comparisons;
+	int index, comparisons;
 };
 
-string searchFunc(search (*func)(string, string), string text, string pattern);
+string getSearch(search (*fxn)(string, string), string text, string pattern);
 search bruteForceSearch(string t, string p);
 search bmMatch(string t, string p);
 search kmpMatch(string t, string p);
@@ -23,17 +24,18 @@ int main(){
 		<< " * Description - Compares the 3 pattern-matching algorithms\n */\n\n";
 
 	string text = "aaabcaadaabaaa", pattern = "aabaaa";
-	cout << "P1 - Brute Force:\n" << searchFunc(bruteForceSearch, text, pattern);
-	cout << "P2 - Boyer-Moore:\n" << searchFunc(bmMatch, text, pattern);
-	cout << "P3 - KMP:\n" << searchFunc(kmpMatch, text, pattern);
+	cout << "P1 - Brute Force:\n" << getSearch(bruteForceSearch, text, pattern);
+	cout << "P2 - Boyer-Moore:\n" << getSearch(bmMatch, text, pattern);
+	cout << "P3 - KMP:\n" << getSearch(kmpMatch, text, pattern);
+	cout << '\n' << getSearch(bruteForceSearch, text, "777777");
 }
 
 //Takes search function and returns string based on results of executing search function
-string searchFunc(search (*func)(string, string), string text, string pattern){
-	search result = func(text, pattern);
-	bool found = result.idx != -1;
+string getSearch(search (*fxn)(string, string), string text, string pattern){
+	search result = fxn(text, pattern);
+	bool found = result.index != -1;
 	return text + (found? " contains" : " does not contain") + " "
-		+ pattern + (found? " starting at index #" + to_string(result.idx) : "")
+		+ pattern + (found? " starting at index #" + to_string(result.index) : "")
 		+ ": " + to_string(result.comparisons) + " comparisons used\n\n";
 }
 
@@ -78,7 +80,7 @@ search bmMatch(string t, string p){
 	return{ -1, comps };
 }
 
-//Boyer-Moore Matching Algorithm
+//Knutt-Morris-Pratt Matching Algorithm
 search kmpMatch(string t, string p){
 	int comps = 0;
 	int n = t.size(), m = p.size();
@@ -98,7 +100,7 @@ search kmpMatch(string t, string p){
 		if(t[i] == p[j]){
 			if(j == m - 1){
 				delete[] fail;
-				return{ i - m + 1, comps };
+				return{i - m + 1, comps};
 			}
 			i++;
 			j++;
@@ -110,5 +112,5 @@ search kmpMatch(string t, string p){
 			i++;
 	}
 	delete[] fail;
-	return{ -1, comps };
+	return{-1, comps};
 }
