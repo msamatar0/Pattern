@@ -13,6 +13,5 @@ aaabcaadaabaaa contains aabaaa starting at index #8: 9 comparisons used
 P3 - KMP:
 aaabcaadaabaaa contains aabaaa starting at index #8: 17 comparisons used
 
-
+Alt. Case:
 aaabcaadaabaaa does not contain 777777: 14 comparisons used
-
