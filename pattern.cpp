@@ -5,7 +5,6 @@
  */
 #include <iostream>
 #include <string>
-#include <functional>
 using namespace std;
 
 //Used in search functions to indicate index searched and # of comparisons used
